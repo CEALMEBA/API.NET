@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmployeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Employee.dbo.Departments' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="DepartmentID" />
+    </Key>
+    <Property Name="DepartmentID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepartmentName" Type="varchar" MaxLength="1000" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Employee.dbo.Employee' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="EmployeeID" />
+    </Key>
+    <Property Name="EmployeeID" Type="bigint" Nullable="false" />
+    <Property Name="EmployeeName" Type="varchar" MaxLength="1000" />
+    <Property Name="Department" Type="varchar" MaxLength="1000" />
+    <Property Name="MailID" Type="varchar" MaxLength="1000" />
+    <Property Name="DOJ" Type="datetime" />
+    <Property Name="Phone" Type="bigint" />
+    <Property Name="Address" Type="varchar" MaxLength="500" />
+    <Property Name="Salary" Type="bigint" />
+    <Property Name="Age" Type="int" />
+  </EntityType>
+  <EntityType Name="Employeemaster">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LoginName" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="ContactNo" Type="varchar" MaxLength="15" />
+    <Property Name="Address" Type="varchar" MaxLength="50" />
+    <Property Name="IsApporved" Type="int" />
+    <Property Name="Status" Type="int" />
+    <Property Name="TotalCnt" Type="int" />
+  </EntityType>
+  <Function Name="Usp_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserName" Type="varchar" Mode="In" />
+    <Parameter Name="Password" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="EmployeeModelStoreContainer">
+    <EntitySet Name="Employeemaster" EntityType="Self.Employeemaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Departments" EntityType="Self.Departments" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[Departments].[DepartmentID] AS [DepartmentID], 
+[Departments].[DepartmentName] AS [DepartmentName]
+FROM [dbo].[Departments] AS [Departments]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Employee" EntityType="Self.Employee" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[Employee].[EmployeeID] AS [EmployeeID], 
+[Employee].[EmployeeName] AS [EmployeeName], 
+[Employee].[Department] AS [Department], 
+[Employee].[MailID] AS [MailID], 
+[Employee].[DOJ] AS [DOJ], 
+[Employee].[Phone] AS [Phone], 
+[Employee].[Address] AS [Address], 
+[Employee].[Salary] AS [Salary], 
+[Employee].[Age] AS [Age]
+FROM [dbo].[Employee] AS [Employee]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
